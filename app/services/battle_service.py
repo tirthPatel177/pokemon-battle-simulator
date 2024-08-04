@@ -24,6 +24,7 @@ class BattleService:
     def run_battle(self, battle_id: int):
         battle = self.db.query(Battle).filter(Battle.id == battle_id).first()
         if not battle:
+            print("Battle not found")
             return
 
         try:
@@ -48,10 +49,11 @@ class BattleService:
                 self.db.add(round_result)
                 self.db.commit()
 
-                sleep(5)  # Simulate delay
+                sleep(10)  # Simulate delay
 
             self.determine_winner(battle.id)
         except Exception as e:
+            print(f"Error running battle: {e}")
             battle.status = BattleStatus.FAILED
             self.db.commit()
 
@@ -59,6 +61,7 @@ class BattleService:
         attack_value = attacker.attack
         against_type1 = getattr(defender, f"against_{attacker.type1}", 1)
         against_type2 = getattr(defender, f"against_{attacker.type2}", 1) if attacker.type2 else 1
+        print(f"Against type1: {against_type1}, Against type2: {against_type2}, Attack value: {attack_value}")
 
         damage = (attack_value / 200) * 100 - ((against_type1 / 4) * 100 + (against_type2 / 4) * 100)
         return int(damage)

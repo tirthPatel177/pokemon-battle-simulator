@@ -8,7 +8,7 @@ from app.db.database import get_db
 
 router = APIRouter()
 
-@router.post("/battles/", response_model=BattleRead)
+@router.post("/", response_model=BattleRead)
 def create_battle(battle_data: BattleCreate, background_tasks: BackgroundTasks, db: Session = Depends(get_db)):
     battle_service = BattleService(db)
     pokemon_service = PokemonService(db)
@@ -33,7 +33,7 @@ def create_battle(battle_data: BattleCreate, background_tasks: BackgroundTasks, 
         result=None  # Initial response, battle not completed yet
     )
 
-@router.get("/battles/{battle_id}", response_model=BattleRead)
+@router.get("/{battle_id}", response_model=BattleRead)
 def get_battle(battle_id: str, db: Session = Depends(get_db)):
     battle_service = BattleService(db)
     battle = battle_service.get_battle(battle_id)
