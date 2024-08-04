@@ -1,5 +1,3 @@
-# app/models/battle.py
-
 from sqlalchemy import Column, Integer, String, ForeignKey, Enum
 from sqlalchemy.orm import relationship
 from app.db.database import Base
@@ -19,6 +17,7 @@ class Battle(Base):
     current_round = Column(Integer, default=1, nullable=False)
     status = Column(Enum(BattleStatus), default=BattleStatus.IN_PROGRESS)
     winner_id = Column(Integer, ForeignKey('pokemons.id'), nullable=True)
+    won_by_margin = Column(Integer, nullable=True)
 
     pokemon_a = relationship("Pokemon", foreign_keys=[pokemon_a_id])
     pokemon_b = relationship("Pokemon", foreign_keys=[pokemon_b_id])
