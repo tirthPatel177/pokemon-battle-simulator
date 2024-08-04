@@ -71,14 +71,15 @@ class BattleService:
         round_1 = self.db.query(Round).filter(Round.battle_id == battle.id, Round.attacker_id == battle.pokemon_a_id).first()
         round_2 = self.db.query(Round).filter(Round.battle_id == battle.id, Round.attacker_id == battle.pokemon_b_id).first()
 
+        # here the damage_dealt is negative as it is damage... so more negative means more damage
         if round_1.damage_dealt > round_2.damage_dealt:
-            battle.winner_id = battle.pokemon_a_id
-            battle.won_by_margin = round_1.damage_dealt
-        elif round_2.damage_dealt > round_1.damage_dealt:
             battle.winner_id = battle.pokemon_b_id
             battle.won_by_margin = round_2.damage_dealt
+        elif round_2.damage_dealt > round_1.damage_dealt:
+            battle.winner_id = battle.pokemon_a_id
+            battle.won_by_margin = round_1.damage_dealt
         else:
-            battle.winner_id = None  # Draw
+            battle.winner_id = None
             battle.won_by_margin = 0
 
         battle.status = BattleStatus.BATTLE_COMPLETED
