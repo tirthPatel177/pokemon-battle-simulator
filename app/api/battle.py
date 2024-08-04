@@ -30,7 +30,7 @@ def create_battle(battle_data: BattleCreate, background_tasks: BackgroundTasks, 
         pokemon_b_name=pokemon_b.name,
         current_round=battle.current_round,
         status=battle.status,
-        result=None  # Initial response, battle not completed yet
+        result=None  
     )
 
 @router.get("/{battle_id}", response_model=BattleRead)
@@ -41,7 +41,7 @@ def get_battle(battle_id: str, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Battle not found")
 
     result = None
-    if battle.status == BattleStatus.COMPLETED:
+    if battle.status == BattleStatus.BATTLE_COMPLETED:
         result = BattleResult(
             winnerName=battle.winner.name if battle.winner else None,
             wonByMargin=battle.won_by_margin

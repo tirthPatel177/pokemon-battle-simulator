@@ -137,4 +137,4 @@ def test_run_battle(test_db):
 
     battle_service.run_battle(new_battle.id)
     updated_battle = test_db.query(Battle).filter(Battle.id == new_battle.id).first()
-    assert updated_battle.status == BattleStatus.COMPLETED
+    assert updated_battle.status == BattleStatus.BATTLE_COMPLETED

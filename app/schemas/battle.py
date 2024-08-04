@@ -2,9 +2,9 @@ from pydantic import BaseModel
 from enum import Enum
 
 class BattleStatus(str, Enum):
-    IN_PROGRESS = "IN_PROGRESS"
-    COMPLETED = "COMPLETED"
-    FAILED = "FAILED"
+    BATTLE_INPROGRESS = "BATTLE_INPROGRESS"
+    BATTLE_COMPLETED = "BATTLE_COMPLETED"
+    BATTLE_FAILED = "BATTLE_FAILED"
 
 class BattleBase(BaseModel):
     pokemon_a_name: str

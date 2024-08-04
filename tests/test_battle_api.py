@@ -15,7 +15,6 @@ def setup_db():
     Base.metadata.drop_all(bind=engine)
 
 def test_create_battle():
-    # Create first Pokémon
     response = client.post("/api/v1/pokemon/", json={
         "name": "Bulbasaur",
         "type1": "grass",
@@ -42,7 +41,6 @@ def test_create_battle():
     })
     assert response.status_code == 200
 
-    # Create second Pokémon
     response = client.post("/api/v1/pokemon/", json={
         "name": "Charmander",
         "type1": "fire",
@@ -68,7 +66,6 @@ def test_create_battle():
     })
     assert response.status_code == 200
 
-    # Create a battle
     response = client.post("/api/v1/battle/", json={
         "pokemon_a_name": "Bulbasaur",
         "pokemon_b_name": "Charmander"
@@ -77,15 +74,12 @@ def test_create_battle():
     assert "id" in response.json()
     battle_id = response.json()["id"]
 
+    time.sleep(22)  
 
-    # Wait for the battle to complete
-    time.sleep(22)  # Wait long enough for the background task to complete
-
-    # Get the battle result
     response = client.get(f"/api/v1/battle/{battle_id}")
     print(response.json(), "Final response")
     assert response.status_code == 200
-    assert response.json()["status"] == "COMPLETED"
+    assert response.json()["status"] == "BATTLE_COMPLETED"
     assert response.json()["result"] is not None
     assert "winnerName" in response.json()["result"]
     assert "wonByMargin" in response.json()["result"]

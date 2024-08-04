@@ -57,7 +57,6 @@ def test_create_pokemon(test_db):
 
 def test_get_pokemon_by_name(test_db):
     pokemon_service = PokemonService(test_db)
-    # Ensure the Pokémon is created before testing retrieval
     pokemon_service.create_pokemon(PokemonCreate(
         name="Charmander",
         type1="fire",

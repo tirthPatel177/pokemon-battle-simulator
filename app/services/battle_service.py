@@ -1,5 +1,3 @@
-# services/battle_service.py
-
 from sqlalchemy.orm import Session
 from app.models.battle import Battle, BattleStatus
 from app.models.round import Round
@@ -14,7 +12,7 @@ class BattleService:
         battle = Battle(
             pokemon_a_id=pokemon_a.id,
             pokemon_b_id=pokemon_b.id,
-            status=BattleStatus.IN_PROGRESS
+            status=BattleStatus.BATTLE_INPROGRESS
         )
         self.db.add(battle)
         self.db.commit()
@@ -28,8 +26,7 @@ class BattleService:
             return
 
         try:
-            # Simulate round processing
-            for round_number in range(1, 3):  # Assuming 2 rounds
+            for round_number in range(1, 3):  
                 if round_number == 1:
                     attacker = battle.pokemon_a
                     defender = battle.pokemon_b
@@ -42,7 +39,7 @@ class BattleService:
                     battle_id=battle.id,
                     attacker_id=attacker.id,
                     defender_id=defender.id,
-                    attack_used="default_attack",  # Example attack name
+                    attack_used="default_attack",  
                     damage_dealt=damage,
                     round_result=f"{attacker.name} attacked {defender.name} dealing {damage} damage"
                 )
@@ -54,7 +51,7 @@ class BattleService:
             self.determine_winner(battle.id)
         except Exception as e:
             print(f"Error running battle: {e}")
-            battle.status = BattleStatus.FAILED
+            battle.status = BattleStatus.BATTLE_FAILED
             self.db.commit()
 
     def calculate_damage(self, attacker: Pokemon, defender: Pokemon) -> int:
@@ -71,7 +68,6 @@ class BattleService:
         if not battle:
             return
 
-        # Assuming two rounds
         round_1 = self.db.query(Round).filter(Round.battle_id == battle.id, Round.attacker_id == battle.pokemon_a_id).first()
         round_2 = self.db.query(Round).filter(Round.battle_id == battle.id, Round.attacker_id == battle.pokemon_b_id).first()
 
@@ -85,7 +81,7 @@ class BattleService:
             battle.winner_id = None  # Draw
             battle.won_by_margin = 0
 
-        battle.status = BattleStatus.COMPLETED
+        battle.status = BattleStatus.BATTLE_COMPLETED
         self.db.commit()
 
     def get_battle(self, battle_id: int) -> Battle:

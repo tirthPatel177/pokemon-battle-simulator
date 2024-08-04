@@ -1,4 +1,3 @@
-# app/services/pokemon_service.py
 from sqlalchemy.orm import Session
 from app.models.pokemon import Pokemon
 from app.schemas.pokemon import PokemonCreate
