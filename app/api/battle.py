@@ -34,7 +34,7 @@ def create_battle(battle_data: BattleCreate, background_tasks: BackgroundTasks, 
     )
 
 @router.get("/battles/{battle_id}", response_model=BattleRead)
-def get_battle(battle_id: int, db: Session = Depends(get_db)):
+def get_battle(battle_id: str, db: Session = Depends(get_db)):
     battle_service = BattleService(db)
     battle = battle_service.get_battle(battle_id)
     if not battle:
@@ -51,7 +51,6 @@ def get_battle(battle_id: int, db: Session = Depends(get_db)):
         id=battle.id,
         pokemon_a_name=battle.pokemon_a.name,
         pokemon_b_name=battle.pokemon_b.name,
-        current_round=battle.current_round,
         status=battle.status,
         result=result
     )

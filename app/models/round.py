@@ -6,7 +6,7 @@ class Round(Base):
     __tablename__ = "rounds"
 
     id = Column(Integer, primary_key=True, index=True)
-    battle_id = Column(Integer, ForeignKey('battles.id'), nullable=False)
+    battle_id = Column(String, ForeignKey('battles.id'), nullable=False)
     attacker_id = Column(Integer, ForeignKey('pokemons.id'), nullable=False)
     defender_id = Column(Integer, ForeignKey('pokemons.id'), nullable=False)
     attack_used = Column(String, nullable=False)

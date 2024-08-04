@@ -18,8 +18,7 @@ class BattleResult(BaseModel):
     wonByMargin: int | None
 
 class BattleRead(BaseModel):
-    id: int
-    current_round: int
+    id: str
     status: BattleStatus
     result: BattleResult | None
 

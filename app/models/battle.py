@@ -2,6 +2,7 @@ from sqlalchemy import Column, Integer, String, ForeignKey, Enum
 from sqlalchemy.orm import relationship
 from app.db.database import Base
 from enum import Enum as PyEnum
+import uuid
 
 class BattleStatus(PyEnum):
     IN_PROGRESS = "IN_PROGRESS"
@@ -11,7 +12,7 @@ class BattleStatus(PyEnum):
 class Battle(Base):
     __tablename__ = "battles"
 
-    id = Column(Integer, primary_key=True, index=True)
+    id = Column(String, primary_key=True, index=True, default=lambda: str(uuid.uuid4()))
     pokemon_a_id = Column(Integer, ForeignKey('pokemons.id'), nullable=False)
     pokemon_b_id = Column(Integer, ForeignKey('pokemons.id'), nullable=False)
     current_round = Column(Integer, default=1, nullable=False)
